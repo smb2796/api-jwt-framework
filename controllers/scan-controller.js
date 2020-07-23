@@ -1,5 +1,6 @@
 
 const HttpError = require('../models/http-error');
+const { validationResult } = require('express-validator');
 
 const exampleScans = [
     {
@@ -32,6 +33,10 @@ const getScans = (req, res, next) => {
 }
 
 const createScan = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        throw new HttpError('Invalid inputs', 422);
+    }
     const { scanId, scanName, gtin } = req.body;
 
     const createdScan = {
@@ -51,7 +56,7 @@ const updateScanById = (req, res, next) => {
 
     const updatedScan = { ...exampleScans.find(scan => scan.scanId === scanId) };
     const scanIndex = exampleScans.findIndex(scan => scan.scanId === scanId);
-    
+
     updatedScan.scanName = scanName;
     updatedScan.gtin = gtin;
 
