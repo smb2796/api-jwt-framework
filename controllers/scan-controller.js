@@ -45,6 +45,23 @@ const createScan = (req, res, next) => {
     res.status(201).json({scan: createdScan});
 }
 
+const updateScanById = (req, res, next) => {
+    const { scanName, gtin } = req.body;
+    const scanId = req.params.scanId;
+
+    const updatedScan = { ...exampleScans.find(scan => scan.scanId === scanId) };
+    const scanIndex = exampleScans.findIndex(scan => scan.scanId === scanId);
+    
+    updatedScan.scanName = scanName;
+    updatedScan.gtin = gtin;
+
+    exampleScans[scanIndex] = updatedScan;
+    res.status(200).json({scan: updatedScan});
+
+};
+
+
 exports.getScansById = getScansById;
 exports.getScans = getScans;
 exports.createScan = createScan;
+exports.updateScanById = updateScanById;

@@ -9,5 +9,5 @@ router.get('/scan/:scanId', scanControllers.getScansById);
 
 router.post('/', scanControllers.createScan);
 
-router.patch('/:scan/:scanId', )
+router.patch('/scan/:scanId', scanControllers.updateScanById)
 module.exports = router;
