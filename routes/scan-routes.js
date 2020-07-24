@@ -3,6 +3,9 @@ const { check } = require('express-validator');
 
 const scanControllers = require('../controllers/scan-controller');
 const router = express.Router();
+const checkAuth = require('../middleware/check-auth');
+
+// router.use(checkAuth);
 
 router.get('/scans', scanControllers.getScans);
 

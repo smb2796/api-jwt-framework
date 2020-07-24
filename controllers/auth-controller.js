@@ -1,6 +1,7 @@
 const uuid = require('uuid/v4');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
 const exampleUsers = [
     {
@@ -47,7 +48,20 @@ const login = (req, res, next) => {
         throw new HttpError('Username or pw is wrong', 401);
     }
 
-    res.json({ message: 'logged in' });
+    let token;
+    try {
+        token = jwt.sign({userId: identifiedUser.id, email: identifiedUser.email}, 
+            'examplesecret', 
+            {expiresIn: '1h'});    
+    } catch (err) {
+        const error = new HttpError('Login failed', 500);
+    }
+    
+    res.json({ 
+        userId: identifiedUser.id,
+        email: identifiedUser.email,
+        token: token
+     });
 };
 
 exports.getUsers = getUsers;

@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
-app.use('/api/scans', scanRoutes);
+app.use('/api/data', scanRoutes);
 
 app.use((req, res, next) => {
     const error = new HttpError('Route does not exist.', 404);
